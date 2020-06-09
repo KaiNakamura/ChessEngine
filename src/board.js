@@ -54,6 +54,7 @@ class Board {
 		// Game logic
 		this.inHand;
 		this.turn = Color.WHITE;
+		this.moves = [];
 	}
 
 	mousePressed() {
@@ -79,15 +80,11 @@ class Board {
 		}
 
 		// If pressed sqaure has piece, pick up piece
-		if(pressedPiece != null && this.inHand == null) {
+		if(pressedPiece != null && pressedPiece.color == this.turn) {
 			for(let piece of this.pieces) {
 				// Only pick up pieces if it's their player's turn
 				if(piece.square.mouseIsOver() && piece.color == this.turn) {
 					this.inHand = piece;
-
-					// Highlight picked up piece
-					this.setSquareHighlight(false);
-					this.inHand.square.highlighted = true;
 				}
 			}
 		}
@@ -105,10 +102,22 @@ class Board {
 						for(let validSquare of this.inHand.getValidSquares()) {
 							// If new square is a valid move, move piece
 							if(validSquare == newSquare) {
-								// Highlight new square
-								newSquare.highlighted = true;
+								// Capture piece if one exists
+								let capturedPiece = this.getPiece(newSquare);
+								if(	capturedPiece != null &&
+									capturedPiece.color != this.inHand.color) {
+									for(let i = 0; i < this.pieces.length; i++) {
+										if(this.pieces[i] == capturedPiece) {
+											this.pieces.splice(i, 1);
+										}
+									}
+								}
 
 								// Move piece
+								this.moves.push(
+									new Move(this.inHand, this.inHand.square, newSquare)
+								);
+								
 								this.inHand.square = newSquare;
 								this.inHand.hasMoved = true;
 
@@ -119,13 +128,24 @@ class Board {
 						}
 
 						// If new square is not a valid move, cancel move
-						this.setSquareHighlight(false);
 						this.inHand = null;
 
 						break findNewSquare;
 					}
 				}
 			}
+		}
+
+		// Highlight squares
+		this.setSquaresHighlighted(false);
+		if(this.inHand != null) {
+			this.inHand.square.highlighted = true;
+		}
+
+		if(this.moves.length > 0) {
+			let lastMove = this.moves[this.moves.length - 1];
+			lastMove.from.highlighted = true;
+			lastMove.to.highlighted = true;
 		}
 	}
 
@@ -148,10 +168,10 @@ class Board {
 		return null;
 	}
 
-	setSquareHighlight(highlight) {
+	setSquaresHighlighted(highlighted) {
 		for(let i = 0; i < 8; i++) {
 			for(let j = 0; j < 8; j++) {
-				this.squares[i][j].highlighted = highlight;
+				this.squares[i][j].highlighted = highlighted;
 			}
 		}
 	}

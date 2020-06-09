@@ -19,7 +19,7 @@ class Piece {
 		return validSquares;
 	}
 
-	getValidSquaresInDirection(xStep, yStep, steps) {
+	getValidSquaresInDirection(xStep, yStep, steps, canCapture=true, canOnlyCapture=false) {
 		let validSquares = [];
 
 		let i = this.square.x + xStep;
@@ -30,7 +30,14 @@ class Piece {
 			let square = this.board.squares[i][j];
 			let piece = this.board.getPiece(square);
 
+			if(canOnlyCapture && (piece == null || (piece != null && piece.color == this.color))) {
+				break;
+			}
+
 			if(piece != null) {
+				if(canCapture && piece.color != this.color) {
+					validSquares.push(square);
+				}
 				break;
 			}
 

@@ -40,4 +40,10 @@ class Square {
 
 		rect(this.x * SQUARE_SIZE, this.y * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
 	}
+
+	toString() {
+		let cols = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+
+		return cols[this.x] + (8 - this.y);
+	}
 }
