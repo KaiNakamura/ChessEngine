@@ -21,15 +21,18 @@ Each square is assigned a number like so
 
 class Board {
 	constructor() {
-		this.loadPositionFromFEN(START_FEN);
+		this.loadFromFEN(START_FEN);
 	}
 
 	// What the hell is FEN? See: https://en.wikipedia.org/wiki/Forsyth-Edwards_Notation
-	loadPositionFromFEN(fen) {
-		this.squares = new Array(64).fill(0);
+	loadFromFEN(fen) {
+		let fenRecord = fen.split(' ');
+		let fenPosition = fenRecord[0];
+		let fenActiveColor = fenRecord[1];
 
+		this.squares = new Array(64).fill(0);
 		let file = 0, rank = 7;
-		for (let char of fen.split(' ')[0]) {
+		for (let char of fenPosition) {
 			if (char === '/') {
 				file = 0;
 				rank--;
@@ -44,6 +47,8 @@ class Board {
 				}
 			}
 		}
+
+		this.activeColor = fenActiveColor === 'w' ? Piece.WHITE : Piece.BLACK;
 	}
 
 	draw() {
