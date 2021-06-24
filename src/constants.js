@@ -4,7 +4,6 @@ const SQUARE_SIZE = BOARD_SIZE / 8.0;
 const LIGHT_SQUARE_COLOR = '#FFFFDD';
 const DARK_SQUARE_COLOR = '#86A666';
 
-// Pieces
 const Piece = {
 	NONE: 0,
 	PAWN: 1,
@@ -13,14 +12,26 @@ const Piece = {
 	ROOK: 4,
 	QUEEN: 5,
 	KING: 6,
-
 	WHITE: 8,
 	BLACK: 16
 };
 
-// Images
-let PieceImages = {};
+const PieceSymbol = {
+	'P': Piece.WHITE | Piece.PAWN,
+	'N': Piece.WHITE | Piece.KNIGHT,
+	'B': Piece.WHITE | Piece.BISHOP,
+	'R': Piece.WHITE | Piece.ROOK,
+	'Q': Piece.WHITE | Piece.QUEEN,
+	'K': Piece.WHITE | Piece.KING,
+	'p': Piece.BLACK | Piece.PAWN,
+	'n': Piece.BLACK | Piece.KNIGHT,
+	'b': Piece.BLACK | Piece.BISHOP,
+	'r': Piece.BLACK | Piece.ROOK,
+	'q': Piece.BLACK | Piece.QUEEN,
+	'k': Piece.BLACK | Piece.KING
+};
 
+const PieceImages = {};
 function preload() {
 	PieceImages[Piece.WHITE | Piece.PAWN] = loadImage("/images/white-pawn.png");
 	PieceImages[Piece.WHITE | Piece.KNIGHT] = loadImage("/images/white-knight.png");

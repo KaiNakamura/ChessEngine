@@ -28,13 +28,18 @@ class Board {
 		this.squares[7] = Piece.BLACK | Piece.KNIGHT;
 	}
 
+	// What the hell is FEN? See: https://en.wikipedia.org/wiki/Forsyth-Edwards_Notation
+	loadPositionFromFEN() {
+
+	}
+
 	draw() {
 		for (let i = 0; i < this.squares.length; i++) {
-			let row = Math.floor(i / 8);
-			let col = i % 8;
-			let isLightSquare = (row + col) % 2 != 0;
-			let x = col * SQUARE_SIZE;
-			let y = BOARD_SIZE - (row + 1) * SQUARE_SIZE;
+			let rank = Math.floor(i / 8);
+			let file = i % 8;
+			let isLightSquare = (rank + file) % 2 != 0;
+			let x = file * SQUARE_SIZE;
+			let y = BOARD_SIZE - (rank + 1) * SQUARE_SIZE;
 			let piece = this.squares[i];
 			
 			// Draw square
