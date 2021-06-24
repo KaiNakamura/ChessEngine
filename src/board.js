@@ -21,16 +21,29 @@ Each square is assigned a number like so
 
 class Board {
 	constructor() {
-		this.squares = new Array(64).fill(0);
-
-		this.squares[0] = Piece.WHITE | Piece.BISHOP;
-		this.squares[63] = Piece.BLACK | Piece.QUEEN;
-		this.squares[7] = Piece.BLACK | Piece.KNIGHT;
+		this.loadPositionFromFEN(START_FEN);
 	}
 
 	// What the hell is FEN? See: https://en.wikipedia.org/wiki/Forsyth-Edwards_Notation
-	loadPositionFromFEN() {
+	loadPositionFromFEN(fen) {
+		this.squares = new Array(64).fill(0);
 
+		let file = 0, rank = 7;
+		for (let char of fen.split(' ')[0]) {
+			if (char === '/') {
+				file = 0;
+				rank--;
+			}
+			else {
+				if (!isNaN(char)) {
+					file += parseInt(char);
+				}
+				else {
+					this.squares[rank * 8 + file] = PieceSymbol[char];
+					file++;
+				}
+			}
+		}
 	}
 
 	draw() {

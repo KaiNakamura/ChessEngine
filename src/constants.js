@@ -4,6 +4,8 @@ const SQUARE_SIZE = BOARD_SIZE / 8.0;
 const LIGHT_SQUARE_COLOR = '#FFFFDD';
 const DARK_SQUARE_COLOR = '#86A666';
 
+const START_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+
 const Piece = {
 	NONE: 0,
 	PAWN: 1,
