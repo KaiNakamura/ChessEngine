@@ -38,12 +38,12 @@ class Board {
 			let piece = this.squares[i];
 			
 			// Draw square
-			fill(isLightSquare ? LIGHT_SQUARE_COLOR : DARK_SQUARE_COLOR);
 			noStroke();
+			fill(isLightSquare ? LIGHT_SQUARE_COLOR : DARK_SQUARE_COLOR);
 			rect(x, y, SQUARE_SIZE, SQUARE_SIZE);
 
 			// Debug numbers
-			fill(0);
+			fill(isLightSquare ? DARK_SQUARE_COLOR : LIGHT_SQUARE_COLOR);
 			text(i, x, y + 10);
 			
 			// Draw piece
