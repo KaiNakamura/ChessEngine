@@ -1,20 +1,37 @@
-const WIDTH = 720;
-const HEIGHT = WIDTH;
-const SQUARE_SIZE = WIDTH / 8.0;
+const BOARD_SIZE = 720;
+const SQUARE_SIZE = BOARD_SIZE / 8.0;
+
+const LIGHT_SQUARE_COLOR = '#FFFFDD';
+const DARK_SQUARE_COLOR = '#86A666';
+
+// Pieces
+const Piece = {
+	NONE: 0,
+	PAWN: 1,
+	KNIGHT: 2,
+	BISHOP: 3,
+	ROOK: 4,
+	QUEEN: 5,
+	KING: 6,
+
+	WHITE: 8,
+	BLACK: 16
+};
 
 // Images
+let PieceImages = {};
+
 function preload() {
-	PIECE_IMAGE = loadImage("/images/piece.png");
-	WHITE_PAWN_IMAGE = loadImage("/images/white-pawn.png");
-	WHITE_KNIGHT_IMAGE = loadImage("/images/white-knight.png");
-	WHITE_BISHOP_IMAGE = loadImage("/images/white-bishop.png");
-	WHITE_ROOK_IMAGE = loadImage("/images/white-rook.png");
-	WHITE_QUEEN_IMAGE = loadImage("/images/white-queen.png");
-	WHITE_KING_IMAGE = loadImage("/images/white-king.png");
-	BLACK_PAWN_IMAGE = loadImage("/images/black-pawn.png");
-	BLACK_KNIGHT_IMAGE = loadImage("/images/black-knight.png");
-	BLACK_BISHOP_IMAGE = loadImage("/images/black-bishop.png");
-	BLACK_ROOK_IMAGE = loadImage("/images/black-rook.png");
-	BLACK_QUEEN_IMAGE = loadImage("/images/black-queen.png");
-	BLACK_KING_IMAGE = loadImage("/images/black-king.png")
+	PieceImages[Piece.WHITE | Piece.PAWN] = loadImage("/images/white-pawn.png");
+	PieceImages[Piece.WHITE | Piece.KNIGHT] = loadImage("/images/white-knight.png");
+	PieceImages[Piece.WHITE | Piece.BISHOP] = loadImage("/images/white-bishop.png");
+	PieceImages[Piece.WHITE | Piece.ROOK] = loadImage("/images/white-rook.png");
+	PieceImages[Piece.WHITE | Piece.QUEEN] = loadImage("/images/white-queen.png");
+	PieceImages[Piece.WHITE | Piece.KING] = loadImage("/images/white-king.png");
+	PieceImages[Piece.BLACK | Piece.PAWN] = loadImage("/images/black-pawn.png");
+	PieceImages[Piece.BLACK | Piece.KNIGHT] = loadImage("/images/black-knight.png");
+	PieceImages[Piece.BLACK | Piece.BISHOP] = loadImage("/images/black-bishop.png");
+	PieceImages[Piece.BLACK | Piece.ROOK] = loadImage("/images/black-rook.png");
+	PieceImages[Piece.BLACK | Piece.QUEEN] = loadImage("/images/black-queen.png");
+	PieceImages[Piece.BLACK | Piece.KING] = loadImage("/images/black-king.png")
 }

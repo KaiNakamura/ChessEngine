@@ -1,14 +1,10 @@
-var board;
+let board;
 
 function setup() {
-	createCanvas(WIDTH, HEIGHT);	
-	board = new Board();	
-}
-
-function draw() {
+	board = new Board();
+	createCanvas(BOARD_SIZE, BOARD_SIZE);	
 	board.draw();
 }
 
-function mousePressed() {
-	board.mousePressed();
+function draw() {
 }
