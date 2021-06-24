@@ -2,21 +2,6 @@ const WIDTH = 720;
 const HEIGHT = WIDTH;
 const SQUARE_SIZE = WIDTH / 8.0;
 
-// Colors
-const Color = {
-	WHITE: "WHITE",
-	BLACK: "BLACK",
-}
-
-function getOtherColor(color) {
-	if(color == Color.WHITE) {
-		return Color.BLACK;
-	}
-	else {
-		return Color.WHITE;
-	}
-}
-
 // Images
 function preload() {
 	PIECE_IMAGE = loadImage("/images/piece.png");
