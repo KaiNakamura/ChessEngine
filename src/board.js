@@ -41,6 +41,9 @@ class Board {
 				if (Piece.isSlidingPiece(piece)) {
 					this.generateSlidingMoves(piece, startSquare);
 				}
+				else if (Piece.isType(piece, Piece.KING)) {
+					this.generateKingMoves(piece, startSquare);
+				}
 			}
 		}
 	}
@@ -66,6 +69,27 @@ class Board {
 					break;
 				}
 			}
+		}
+	}
+
+	generateKingMoves(piece, startSquare) {
+		for (let directionIndex = 0; directionIndex < 8; directionIndex++) {
+			// Don't let the king fall off the edge of the board
+			if (Square.NUM_SQUARES_TO_EDGE[startSquare][directionIndex] <= 0) {
+				continue;
+			}
+
+			let targetSquare = startSquare + Square.DIRECTION_OFFSETS[directionIndex];
+			let pieceOnTargetSquare = this.squares[targetSquare];
+
+			console.log(Square.DIRECTION_OFFSETS[directionIndex] + ', ' + targetSquare + ', ' + pieceOnTargetSquare);
+
+			// King can't move into his own piece
+			if (Piece.isColor(pieceOnTargetSquare, Piece.getColor(piece))) {
+				continue;
+			}
+
+			this.moves.push(new Move(startSquare, targetSquare));
 		}
 	}
 

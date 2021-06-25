@@ -7,4 +7,4 @@ const HIGHLIGHTED_LIGHT_SQUARE_COLOR = '#89A97D';
 const HIGHLIGHTED_DARK_SQUARE_COLOR = '#4C7D42';
 
 // const START_FEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
-const START_FEN = 'r1bq1b1r/8/8/8/8/8/8/R1BQ1B1R w - - 0 1';
+const START_FEN = 'r1bqkb1r/8/8/8/8/8/8/R1BQKB1R w KQkq - 0 1';
