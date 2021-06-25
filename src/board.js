@@ -69,6 +69,15 @@ class Board {
 		}
 	}
 
+	move(move) {
+		let piece = this.squares[move.startSquare];
+		this.squares[move.targetSquare] = piece;
+		this.squares[move.startSquare] = Piece.NONE;
+
+		this.activeColor = Piece.getOppositeColor(piece);
+		this.generateMoves();
+	}
+
 	draw() {
 		for (let i = 0; i < this.squares.length; i++) {
 			let x = Square.getX(i);
@@ -111,6 +120,14 @@ class Board {
 	mouseClicked() {
 		for (let i = 0; i < this.squares.length; i++) {
 			if (Square.mouseIsOver(i)) {
+				for (let move of this.moves) {
+					if (
+						move.startSquare === this.selectedSquare &&
+						move.targetSquare === i
+					) {
+						this.move(move);
+					}
+				}
 				this.selectedSquare = i;
 			}
 		}
