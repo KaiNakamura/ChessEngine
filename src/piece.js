@@ -79,17 +79,17 @@ class Piece {
 	}
 
 	static loadImages() {
-		Piece.Images[Piece.WHITE | Piece.PAWN] = loadImage("/images/white-pawn.png");
-		Piece.Images[Piece.WHITE | Piece.KNIGHT] = loadImage("/images/white-knight.png");
-		Piece.Images[Piece.WHITE | Piece.BISHOP] = loadImage("/images/white-bishop.png");
-		Piece.Images[Piece.WHITE | Piece.ROOK] = loadImage("/images/white-rook.png");
-		Piece.Images[Piece.WHITE | Piece.QUEEN] = loadImage("/images/white-queen.png");
-		Piece.Images[Piece.WHITE | Piece.KING] = loadImage("/images/white-king.png");
-		Piece.Images[Piece.BLACK | Piece.PAWN] = loadImage("/images/black-pawn.png");
-		Piece.Images[Piece.BLACK | Piece.KNIGHT] = loadImage("/images/black-knight.png");
-		Piece.Images[Piece.BLACK | Piece.BISHOP] = loadImage("/images/black-bishop.png");
-		Piece.Images[Piece.BLACK | Piece.ROOK] = loadImage("/images/black-rook.png");
-		Piece.Images[Piece.BLACK | Piece.QUEEN] = loadImage("/images/black-queen.png");
-		Piece.Images[Piece.BLACK | Piece.KING] = loadImage("/images/black-king.png")
+		Piece.Images[Piece.WHITE | Piece.PAWN] = loadImage('/images/white-pawn.png');
+		Piece.Images[Piece.WHITE | Piece.KNIGHT] = loadImage('/images/white-knight.png');
+		Piece.Images[Piece.WHITE | Piece.BISHOP] = loadImage('/images/white-bishop.png');
+		Piece.Images[Piece.WHITE | Piece.ROOK] = loadImage('/images/white-rook.png');
+		Piece.Images[Piece.WHITE | Piece.QUEEN] = loadImage('/images/white-queen.png');
+		Piece.Images[Piece.WHITE | Piece.KING] = loadImage('/images/white-king.png');
+		Piece.Images[Piece.BLACK | Piece.PAWN] = loadImage('/images/black-pawn.png');
+		Piece.Images[Piece.BLACK | Piece.KNIGHT] = loadImage('/images/black-knight.png');
+		Piece.Images[Piece.BLACK | Piece.BISHOP] = loadImage('/images/black-bishop.png');
+		Piece.Images[Piece.BLACK | Piece.ROOK] = loadImage('/images/black-rook.png');
+		Piece.Images[Piece.BLACK | Piece.QUEEN] = loadImage('/images/black-queen.png');
+		Piece.Images[Piece.BLACK | Piece.KING] = loadImage('/images/black-king.png')
 	}
 };
