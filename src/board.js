@@ -1,30 +1,11 @@
-/*
-Each square is assigned a number like so
-+---+---+---+---+---+---+---+---+
-| 56| 57| 58| 59| 60| 61| 62| 63|
-+---+---+---+---+---+---+---+---+
-| 48| 49| 50| 51| 52| 53| 54| 55|
-+---+---+---+---+---+---+---+---+
-| 40| 41| 42| 43| 44| 45| 46| 47|
-+---+---+---+---+---+---+---+---+
-| 32| 33| 34| 35| 36| 37| 38| 39|
-+---+---+---+---+---+---+---+---+
-| 24| 25| 26| 27| 28| 29| 30| 31|
-+---+---+---+---+---+---+---+---+
-| 16| 17| 18| 19| 20| 21| 22| 23|
-+---+---+---+---+---+---+---+---+
-|  8|  9| 10| 11| 12| 13| 14| 15|
-+---+---+---+---+---+---+---+---+
-|  0|  1|  2|  3|  4|  5|  6|  7|
-+---+---+---+---+---+---+---+---+
-*/
-
 class Board {
 	constructor() {
 		this.loadFromFEN(START_FEN);
+		this.generateMoves();
 	}
 
-	// What the hell is FEN? See: https://en.wikipedia.org/wiki/Forsyth-Edwards_Notation
+	// What the hell is FEN?
+	// See: https://en.wikipedia.org/wiki/Forsyth-Edwards_Notation
 	loadFromFEN(fen) {
 		let fenRecord = fen.split(' ');
 		let fenPosition = fenRecord[0];
@@ -42,7 +23,7 @@ class Board {
 					file += parseInt(char);
 				}
 				else {
-					this.squares[rank * 8 + file] = PieceSymbol[char];
+					this.squares[Square.getSquare(rank, file)] = Piece.Symbols[char];
 					file++;
 				}
 			}
@@ -51,13 +32,48 @@ class Board {
 		this.activeColor = fenActiveColor === 'w' ? Piece.WHITE : Piece.BLACK;
 	}
 
+	generateMoves() {
+		this.moves = [];
+
+		for (let startSquare = 0; startSquare < this.squares.length; startSquare++) {
+			let piece = this.squares[startSquare];
+			if (piece != Piece.NONE && Piece.isColor(piece, this.activeColor)) {
+				if (Piece.isSlidingPiece(piece)) {
+					this.generateSlidingMoves(piece, startSquare);
+				}
+			}
+		}
+	}
+
+	generateSlidingMoves(piece, startSquare) {
+		let startDirectionIndex = (Piece.isType(piece, Piece.BISHOP)) ? 4 : 0;
+		let endDirectionIndex = (Piece.isType(piece, Piece.ROOK)) ? 4 : 8;
+
+		for (let directionIndex = startDirectionIndex; directionIndex < endDirectionIndex; directionIndex++) {
+			for (let i = 0; i < Square.NUM_SQUARES_TO_EDGE[startSquare][directionIndex]; i++) {
+				let targetSquare = startSquare + Square.DIRECTION_OFFSETS[directionIndex] * (i + 1);
+				let pieceOnTargetSquare = this.squares[targetSquare];
+
+				// Stop if blocked by piece of same color
+				if (Piece.isColor(pieceOnTargetSquare, Piece.getColor(piece))) {
+					break;
+				}
+
+				this.moves.push(new Move(startSquare, targetSquare));
+
+				// Don't go any further if blocked by opponent
+				if (Piece.isColor(pieceOnTargetSquare, Piece.getOppositeColor(piece))) {
+					break;
+				}
+			}
+		}
+	}
+
 	draw() {
 		for (let i = 0; i < this.squares.length; i++) {
-			let rank = Math.floor(i / 8);
-			let file = i % 8;
-			let isLightSquare = (rank + file) % 2 != 0;
-			let x = file * SQUARE_SIZE;
-			let y = BOARD_SIZE - (rank + 1) * SQUARE_SIZE;
+			let x = Square.getX(i);
+			let y = Square.getY(i);
+			let isLightSquare = Square.isLightSquare(i);
 			let piece = this.squares[i];
 			
 			// Draw square
@@ -71,7 +87,31 @@ class Board {
 			
 			// Draw piece
 			if (piece != Piece.NONE) {
-				image(PieceImages[piece], x, y, SQUARE_SIZE, SQUARE_SIZE);
+				image(Piece.Images[piece], x, y, SQUARE_SIZE, SQUARE_SIZE);
+			}
+
+			// Draw moves
+			for (let move of this.moves) {
+				if (move.startSquare === this.selectedSquare) {
+					fill(
+						Square.isLightSquare(move.targetSquare) ?
+						HIGHLIGHTED_LIGHT_SQUARE_COLOR :
+						HIGHLIGHTED_DARK_SQUARE_COLOR
+					);
+					ellipse(
+						Square.getX(move.targetSquare) + SQUARE_SIZE / 2.0,
+						Square.getY(move.targetSquare) + SQUARE_SIZE / 2.0,
+						25,
+					);
+				}
+			}
+		}
+	}
+
+	mouseClicked() {
+		for (let i = 0; i < this.squares.length; i++) {
+			if (Square.mouseIsOver(i)) {
+				this.selectedSquare = i;
 			}
 		}
 	}
