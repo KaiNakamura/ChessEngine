@@ -26,14 +26,38 @@ Pieces can move by changing their index
 +----+----+----+
 | -9 | -8 | -7 |
 +----+----+----+
+
+A knight moves like this
++----+----+----+----+----+
+|    | +15|    | +17|    |
++----+----+----+----+----+
+| +6 |    |    |    | +10|
++----+----+----+----+----+
+|    |    |  N |    |    |
++----+----+----+----+----+
+| -10|    |    |    | -6 |
++----+----+----+----+----+
+|    | -17|    | -15|    |
++----+----+----+----+----+
 */
 class Square {
+	static Direction = {
+		NORTH: 0,
+		SOUTH: 1,
+		WEST: 2,
+		EAST: 3,
+		NORTH_WEST: 4,
+		SOUTH_EAST: 5,
+		NORTH_EAST: 6,
+		SOUTH_WEST: 7
+	};
 	static DIRECTION_OFFSETS = [8, -8, -1, 1, 7, -7, 9, -9];
+	static KNIGHT_OFFSETS = [10, 17, 15, 6, -10, -17, -15, -6];
 
 	// Calculate the number of squares to the edge from each square
 	static NUM_SQUARES_TO_EDGE = new Array(64).fill(0).map((element, index) => {
-		let rank = Math.floor(index / 8);
-		let file = index % 8;
+		let rank = Square.getRank(index);
+		let file = Square.getFile(index);
 		let numNorth = 7 - rank;
 		let numSouth = rank;
 		let numWest = file;
@@ -48,6 +72,23 @@ class Square {
 			Math.min(numNorth, numEast),
 			Math.min(numSouth, numWest)
 		];
+	});
+
+	// Calculate if knight move is valid from each square
+	static VALID_KNIGHT_MOVES = new Array(64).fill(0).map((element, index) => {
+		let numSquaresToEdge = Square.NUM_SQUARES_TO_EDGE[index];
+		let returnValue = 
+		[
+			numSquaresToEdge[Square.Direction.NORTH] >= 1 && numSquaresToEdge[Square.Direction.EAST] >= 2,
+			numSquaresToEdge[Square.Direction.NORTH] >= 2 && numSquaresToEdge[Square.Direction.EAST] >= 1,
+			numSquaresToEdge[Square.Direction.NORTH] >= 2 && numSquaresToEdge[Square.Direction.WEST] >= 1,
+			numSquaresToEdge[Square.Direction.NORTH] >= 1 && numSquaresToEdge[Square.Direction.WEST] >= 2,
+			numSquaresToEdge[Square.Direction.SOUTH] >= 1 && numSquaresToEdge[Square.Direction.WEST] >= 2,
+			numSquaresToEdge[Square.Direction.SOUTH] >= 2 && numSquaresToEdge[Square.Direction.WEST] >= 1,
+			numSquaresToEdge[Square.Direction.SOUTH] >= 2 && numSquaresToEdge[Square.Direction.EAST] >= 1,
+			numSquaresToEdge[Square.Direction.SOUTH] >= 1 && numSquaresToEdge[Square.Direction.EAST] >= 2
+		];
+		return returnValue;
 	});
 
 	static getSquare(rank, file) {
